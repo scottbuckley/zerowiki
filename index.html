@@ -1,0 +1,72 @@
+<html>
+    <head>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-alpha1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.3.2/marked.min.js"></script>
+
+        <link rel="stylesheet" type="text/css" href="http://jasonm23.github.io/markdown-css-themes/avenir-white.css">
+    </head>
+    <body>
+        <div id="content"></div>
+        <script type="text/javascript">
+
+            // get and process qstring
+            var q = document.URL.split('?')[1];
+            if(q != undefined){
+                processFile(q);
+            } else {
+                console.log("no md file given in querystring. defaulting to index.md");
+                processFile('index.md');
+            }
+
+            // ajax fetch and show mardown file
+            function processFile(url) {
+                $.get(url, function(md) {
+                    $('div#content').html(marked(md));
+                    fixRefs();
+                    fixTitle();
+                }).fail(function(){
+                    var errmsg = "Could not find '"+url+"' :( \n Maybe you should create it?";
+                    $('div#content').text(errmsg);
+                });
+            }
+
+            // update the page title
+            function fixTitle() {
+                var title = $('div#content h1').first().text();
+                document.title = title;
+            }
+
+            // do some magic with links
+            function fixRefs() {
+                $('a').each(function () {
+
+                    // deal with hrefs (add ? to the beginning of local links)
+                    if (this.host === location.host) {
+                        // internal
+                        var me = $(this);
+
+                        // local link (to section)
+                        if (me.attr('href').startsWith('#')) {
+                            $(this).css({color: '#c44183'});
+                        }
+
+                        // local link (to other md file)
+                        else if (!me.attr('href').startsWith('?')) {
+                            me.attr('href', '?'+me.attr('href'));
+                            $(this).css({color: '#41c482'});
+                        }
+                        
+                    }
+                    else {
+                        // external
+                        var me = $(this);
+
+                        // change target to '_blank' (new tab)
+                        me.attr('target', '_blank');
+                    }
+                });
+            }
+
+        </script>
+    </body>
+</html>
