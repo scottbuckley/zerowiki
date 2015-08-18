@@ -49,10 +49,12 @@
                         if (me.attr('href').startsWith('#')) {
                             $(this).css({color: '#c44183'});
                         }
-
+                        else {
                         // local link (to other md file)
-                        else if (!me.attr('href').startsWith('?')) {
-                            me.attr('href', '?'+me.attr('href'));
+                            if (!me.attr('href').startsWith('?') && me.attr('href').endsWith('.md')) {
+                                me.attr('href', '?'+me.attr('href'));
+                            }
+
                             $(this).css({color: '#41c482'});
                         }
                         
