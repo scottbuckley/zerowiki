@@ -1,14 +1,22 @@
 <html>
     <head>
+        <title>zerowiki</title>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-alpha1/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.3.2/marked.min.js"></script>
-
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.7/highlight.min.js"></script>
         <link rel="stylesheet" type="text/css" href="http://sindresorhus.com/github-markdown-css/github-markdown.css">
-        <!-- <link rel="stylesheet" type="text/css" href="http://jasonm23.github.io/markdown-css-themes/avenir-white.css"> -->
+        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.7/styles/atelier-forest.light.min.css">
     </head>
     <body>
         <div class="markdown-body" id="content" style="height: 100000px; width:700px; margin: 3em auto 6em auto;"></div>
         <script type="text/javascript">
+
+            // tell marked to use highlightjs code highlighting
+            marked.setOptions({
+                highlight: function (code) {
+                    return hljs.highlightAuto(code).value;
+                }
+            });
 
             // get and process qstring
             var q = document.URL.split('?')[1];
