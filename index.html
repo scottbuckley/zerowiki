@@ -5,11 +5,14 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.3.2/marked.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.7/highlight.min.js"></script>
         <link rel="stylesheet" type="text/css" href="http://sindresorhus.com/github-markdown-css/github-markdown.css">
-        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.7/styles/atelier-forest.light.min.css">
+        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.7/styles/github-gist.min.css">
     </head>
     <body>
         <div class="markdown-body" id="content" style="height: 100000px; width:700px; margin: 3em auto 6em auto;"></div>
         <script type="text/javascript">
+
+            // if true, local links will become green, section links red, and others blue.
+            var colorLinks = true;
 
             // tell marked to use highlightjs code highlighting
             marked.setOptions({
@@ -67,15 +70,20 @@
 
                         // local link (to section)
                         if (me.attr('href').startsWith('#')) {
-                            $(this).css({color: '#c44142'});
+
+                            // color red
+                            if (colorLinks)
+                                $(this).css({color: '#c44142'});
                         }
                         else {
-                        // local link (to other md file)
+                            // local link (to other md file)
                             if (!me.attr('href').startsWith('?') && me.attr('href').endsWith('.md')) {
                                 me.attr('href', '?'+me.attr('href'));
                             }
 
-                            $(this).css({color: '#41c482'});
+                            // color green
+                            if (colorLinks)
+                                $(this).css({color: '#41c482'});
                         }
                         
                     }
@@ -85,6 +93,10 @@
 
                         // change target to '_blank' (new tab)
                         me.attr('target', '_blank');
+
+                        // color blue
+                        if (colorLinks)
+                            $(this).css({color: '#4183c4'});
                     }
                 });
             }
