@@ -13,8 +13,13 @@
 
             // tell marked to use highlightjs code highlighting
             marked.setOptions({
-                highlight: function (code) {
-                    return hljs.highlightAuto(code).value;
+                highlight: function (code, language) {
+                    // highlight with provided language, otherwise autohighlight
+                    try {
+                        return hljs.highlight(language, code).value;
+                    } catch (err) {
+                        return hljs.highlightAuto(code).value;
+                    }
                 }
             });
 
