@@ -42,10 +42,20 @@
                     fixRefs();
                     fixTitle();
                     fixHeight();
+                    scrollHash();
                 }).fail(function(){
                     var errmsg = "Could not find '"+url+"' :( \n Maybe you should create it?";
                     $('div#content').text(errmsg);
                 });
+            }
+
+            // scroll the hashed target into view, if it exists.
+            function scrollHash() {
+                if(window.location.hash) {
+                    var target = $(window.location.hash)[0];
+                    if (target)
+                        target.scrollIntoView();
+                }
             }
 
             // change the height of the containing box to 'auto' (this is for scroll-position retaining)
