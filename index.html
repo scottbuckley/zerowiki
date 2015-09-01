@@ -1,11 +1,16 @@
 <html>
     <head>
         <title>zerowiki</title>
+        <!-- jQuery -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-alpha1/jquery.min.js"></script>
+
+        <!-- marked + css -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.3.2/marked.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.7/highlight.min.js"></script>
         <link rel="stylesheet" type="text/css" href="http://sindresorhus.com/github-markdown-css/github-markdown.css">
-        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.7/styles/github-gist.min.css">
+
+        <!-- google code prettify -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/prettify/r298/prettify.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/prettify/r298/prettify.min.css">
     </head>
     <body>
         <div class="markdown-body" id="content" style="height: 100000px; width:700px; margin: 3em auto 6em auto;"></div>
@@ -14,15 +19,10 @@
             // if true, local links will become green, section links red, and others blue.
             var colorLinks = true;
 
-            // tell marked to use highlightjs code highlighting
+            // tell marked to use google code prettify for syntax highlighting
             marked.setOptions({
                 highlight: function (code, language) {
-                    // highlight with provided language, otherwise autohighlight
-                    try {
-                        return hljs.highlight(language, code).value;
-                    } catch (err) {
-                        return hljs.highlightAuto(code).value;
-                    }
+                    return prettyPrintOne(code, language);
                 }
             });
 

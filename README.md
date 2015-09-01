@@ -14,7 +14,7 @@ By default, zerowiki will try to display the contents of a file called `index.md
 Features
 --------
 
-Markdown files will be rendered as HTML using [marked](https://github.com/chjj/marked), with code-block highlighting from [highlightjs](https://highlightjs.org/). By default, [this github-style CSS](https://github.com/sindresorhus/github-markdown-css) is used for styling, but you can modify `index.html` to use any CSS you like (try [these](http://jasonm23.github.io/markdown-css-themes/avenir-white.html) for example).
+Markdown files will be rendered as HTML using [marked](https://github.com/chjj/marked), with code-block highlighting from [google-code-prettify](https://github.com/google/code-prettify). By default, [this github-style CSS](https://github.com/sindresorhus/github-markdown-css) is used for styling, but you can modify `index.html` to use any CSS you like (try [these](http://jasonm23.github.io/markdown-css-themes/avenir-white.html) for example).
 
 Zerowiki will override the CSS to style local (same host) links green. If you link to any local (non-`.md`) or remote file it will be accessed normally (as per your web server). Section links are styled red, and external links are styled blue. To disable this behaviour, change `colorLinks` to `false` in `index.html`.
 
