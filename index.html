@@ -87,7 +87,7 @@
                         }
                         else {
                             // local link (to other md file)
-                            if (!me.attr('href').startsWith('?') && me.attr('href').endsWith('.md')) {
+                            if (!me.attr('href').startsWith('?') &&  (/\.md(#.*)?$/.test(me.attr('href')))) {
                                 me.attr('href', '?'+me.attr('href'));
                             }
 
