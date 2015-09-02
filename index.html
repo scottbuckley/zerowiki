@@ -28,6 +28,10 @@
             // if true, local links will become green, section links red, and others blue.
             var colorLinks = true;
 
+            // if not false, this URL (with a querystring matching the current filename) will 
+            // be requested via ajax to populate the header of the page (as markdown).
+            var headerURL  = '__zwheader';
+
             // tell marked to use google code prettify for syntax highlighting
             marked.setOptions({
                 highlight: function (code, language) {
@@ -46,16 +50,38 @@
 
             // ajax fetch and show mardown file
             function processFile(url) {
+                // load markdown
+                var fetchMain = 
                 $.get(url, function(md) {
-                    $('div#content').html(marked(md));
-                    fixRefs();
-                    fixTitle();
-                    fixHeight();
-                    scrollHash();
+                    $('div#content').append(marked(md));
                 }).fail(function(){
                     var errmsg = "Could not find '"+url+"' :( \n Maybe you should create it?";
                     $('div#content').text(errmsg);
                 });
+
+                // load header
+                if (headerURL) {
+                    var basicURL = url
+                        .replace(location.hash, '')
+                        .replace(/\/$/, '')
+                        .replace(/^\//, '');
+                    var headerQuery = headerURL + '?' + basicURL
+
+                    var fetchHeader = 
+                    $.get(headerQuery, function(md) {
+                        $('div#content').prepend(marked(md));
+                    });
+                }
+
+                // when both requests are finished, fix everything
+                $.when(fetchMain, fetchHeader)
+                    .then(fix=function(){
+                        fixRefs();
+                        fixTitle();
+                        fixHeight();
+                        scrollHash();
+                    })
+                    .fail(fix);
             }
 
             // scroll the hashed target into view, if it exists.
